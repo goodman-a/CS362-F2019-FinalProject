@@ -1,2 +1,2 @@
-# CS362-F2019-FinalProject
-Final Project for CS362
+# CS362-F2019
+OSU CS362 Software Engineering II Fall 2019
