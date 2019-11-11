@@ -41,7 +41,8 @@ unittestresults: unittest1.c dominion.o rngs.o
 unittest04: unittest04.c dominion.o rngs.o
 	gcc -o unittest04 -g unittest04.c dominion.o rngs.o $(CFLAGS)
 
-
+unittest05: unittest05.c dominion.o rngs.o
+	gcc -o unittest05 -g unittest05.c dominion.o rngs.o $(CFLAGS)
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
