@@ -28,7 +28,7 @@ runtests: testDrawCard
 
 
 # Final Project
-unittestresults: unittest1.c dominion.o rngs.out
+unittestresults: unittest1.c dominion.o rngs.o
 	echo "unittest1.c:" >> unittestresults.out
 	gcc -o unittest1 -g unittest1.c dominion.o rngs.o $(CFLAGS)
 
@@ -36,6 +36,11 @@ unittestresults: unittest1.c dominion.o rngs.out
 
 	gcov -c -b -f dominion.c >> unittestresults.out
 	cat dominion.c gcov >> unittestresults.out
+
+
+unittest04: unittest04.c dominion.o rngs.o
+	gcc -o unittest04 -g unittest04.c dominion.o rngs.o $(CFLAGS)
+
 
 
 player: player.c interface.o
