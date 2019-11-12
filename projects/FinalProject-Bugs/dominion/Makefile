@@ -28,11 +28,17 @@ runtests: testDrawCard
 
 
 # Final Project
-unittestresults: unittest1.c dominion.o rngs.o
-	echo "unittest1.c:" >> unittestresults.out
-	gcc -o unittest1 -g unittest1.c dominion.o rngs.o $(CFLAGS)
+unittestresults: unittest04.c unittest05.c unittest06.c dominion.o rngs.o
+	echo "unittest04.c:" >> unittestresults.out
+	gcc -o unittest04 -g unittest04.c dominion.o rngs.o $(CFLAGS)
+	echo "unittest05.c:" >> unittestresults.out
+	gcc -o unittest05 -g unittest05.c dominion.o rngs.o $(CFLAGS)
+	echo "unittest06.c:" >> unittestresults.out
+	gcc -o unittest06 -g unittest06.c dominion.o rngs.o $(CFLAGS)
 
-	./unittest1 >> unittestresults.out
+	./unittest04 >> unittestresults.out
+	./unittest05 >> unittestresults.out
+	./unittest06 >> unittestresults.out
 
 	gcov -c -b -f dominion.c >> unittestresults.out
 	cat dominion.c gcov >> unittestresults.out
@@ -43,6 +49,9 @@ unittest04: unittest04.c dominion.o rngs.o
 
 unittest05: unittest05.c dominion.o rngs.o
 	gcc -o unittest05 -g unittest05.c dominion.o rngs.o $(CFLAGS)
+
+unittest06: unittest06.c dominion.o rngs.o
+	gcc -o unittest06 -g unittest06.c dominion.o rngs.o $(CFLAGS)
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
