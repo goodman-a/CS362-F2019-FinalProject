@@ -57,7 +57,6 @@ int DeckCardCount(struct gameState *state, int player, int card);
 int HandCardCount2(struct gameState *state, int player, int choice1, int handPos);
 int CheckShuffle(struct gameState *state_old, struct gameState *state_new, int player);  // retVal == 1 good, retVal <1 no shuffle
 
-
 int ScoreForTestA(struct gameState *state, int player);
 int ScoreForTestB(struct gameState *state, int player);
 
@@ -73,11 +72,17 @@ int main(int argc, char** argv){
   int seed = rand();
   int num_players = 2;
   int player = 0;
+  //int total_cards = 0;
+  //int score_hand, score_discard, score_deck;
+  //int total_score;
 
   int scoreReturn;
 
   // Kingdom Cards
   int k[10] = {adventurer, treasure_map, tribute, gardens, mine, remodel, sea_hag, village, baron, great_hall};
+
+  // victory cards
+  //int v[6] = {curse, estate, duchy, province, great_hall, gardens};
 
   // Declare Game State
   struct gameState state;
@@ -86,7 +91,9 @@ int main(int argc, char** argv){
 
   /* -- Test Overview -- */
   /* -- 
-    // note: fullDeckCount Needs to be fixed and refactored into 3 separate functions 
+    // note: fullDeckCount Needs to be fixed andrefactored into 3 separate functions 
+    // Need asserts that check handCount, discardCount, deckCount, and scoring Values vs. Expected Values
+    // Remember the gardens card needs to be included and will need to call the Hand/Discard/Deck Generators
 
     Test Set A (Hand == Discard == Deck):
       1. No Victory Cards
@@ -182,11 +189,11 @@ int main(int argc, char** argv){
   printf("----- BUG 06 TEST SET B (Varying Pile Sizes) -----\n");
 
 
-  /* -- Test 1B (handCount = discardCount = deckCount) */
+  /* -- Test 1 ... -- */
   printf("_____ TEST #1B _____\n");
 
   // Initialize Game
-  memset(&state, 23, sizeof(struct gameState));
+  memset(&state, 0, sizeof(struct gameState));
   initializeGame(num_players, k, seed, &state);
 
   // Set-up Parameters
@@ -197,74 +204,12 @@ int main(int argc, char** argv){
   // Run the Test
   scoreReturn = ScoreForTestB(&state, player);
   if(scoreReturn)
-  { /* Nothing for Now */ }
-
-
-  /* -- Test 2B (handCount < discardCount ; discardCount == deckCount) */
-  printf("_____ TEST #2B _____\n");
-
-  // Initialize Game
-  memset(&state, 23, sizeof(struct gameState));
-  initializeGame(num_players, k, seed, &state);
-
-  // Set-up Parameters
-  state.handCount[player] = 5;
-  state.discardCount[player] = 10;
-  state.deckCount[player] = 10;
-
-  // Run the Test
-  scoreReturn = ScoreForTestB(&state, player);
-
-
-  /* -- Test 3B (handCount < discardCount ; discardCount < deckCount) */
-  printf("_____ TEST #3B _____\n");
-
-  // Initialize Game
-  memset(&state, 23, sizeof(struct gameState));
-  initializeGame(num_players, k, seed, &state);
-
-  // Set-up Parameters
-  state.handCount[player] = 5;
-  state.discardCount[player] = 8;
-  state.deckCount[player] = 12;
-
-  // Run the Test
-  scoreReturn = ScoreForTestB(&state, player);
-
-  /* -- Test 4B (handCount < discardCount ; discardCount > deckCount) */
-  printf("_____ TEST #4B _____\n");
-
-  // Initialize Game
-  memset(&state, 23, sizeof(struct gameState));
-  initializeGame(num_players, k, seed, &state);
-
-  // Set-up Parameters
-  state.handCount[player] = 5;
-  state.discardCount[player] = 12;
-  state.deckCount[player] = 9;
-
-  // Run the Test
-  scoreReturn = ScoreForTestB(&state, player);
-
-
-  /* -- Test 5B (All Piles Are Empty) */
-  printf("_____ TEST #5B _____\n");
-
-  // Initialize Game
-  memset(&state, 23, sizeof(struct gameState));
-  initializeGame(num_players, k, seed, &state);
-
-
-  // Set-up Parameters
-  state.handCount[player] = 0;
-  state.discardCount[player] = 0;
-  state.deckCount[player] = 0;
-
-  // Run the Test
-  scoreReturn = ScoreForTestB(&state, player);
-
-
-
+  {
+    // Nothing for now..
+  }
+  // If there was a fault detected then print out test parameter information (moved to within ScoreForTest())
+  //if(scoreReturn) { printf("__ Test #1 - Fault Detected __\n"); }
+  //else { printf("__ Test #1 - Valid __\n");}
 
 
   return 0;
@@ -278,7 +223,7 @@ int ScoreForTestA(struct gameState *state, int player)
   int score_hand ,score_discard, score_deck, total_score, scoreForReturn;
   int total_cards = state->handCount[player] + state->discardCount[player] + state->deckCount[player];
 
-  // Calculations for Comparisons
+// Calculations for Comparisons
   score_hand = (HandCardCount(state, player, curse)*-1) + (HandCardCount(state, player, estate)*1) + (HandCardCount(state, player, duchy)*3) + (HandCardCount(state, player, province)*6) + (HandCardCount(state, player, great_hall)*1) + (HandCardCount(state, player, gardens)*(total_cards/10));
   score_discard = (DiscardCardCount(state, player, curse)*-1) + (DiscardCardCount(state, player, estate)*1) + (DiscardCardCount(state, player, duchy)*3) + (DiscardCardCount(state, player, province)*6) + (DiscardCardCount(state, player, great_hall)*1) + (DiscardCardCount(state, player, gardens)*(total_cards/10));
   score_deck = (DeckCardCount(state, player, curse)*-1) + (DeckCardCount(state, player, estate)*1) + (DeckCardCount(state, player, duchy)*3) + (DeckCardCount(state, player, province)*6) + (DeckCardCount(state, player, great_hall)*1) + (DeckCardCount(state, player, gardens)*(total_cards/10));
@@ -293,7 +238,7 @@ int ScoreForTestA(struct gameState *state, int player)
 
   if(flagFail)
   {
-    printf("  *Test Information:\n");
+    printf("Test Information:\n");
     printf("\tTotal Cards: %d ; Hand Count: %d ; Discard Count: %d ; Deck Count: %d\n",total_cards,state->handCount[player],state->discardCount[player],state->deckCount[player] );
     printf("\tCalculated Scores: Hand = %d ; Discard = %d ; Deck = %d\n",score_hand, score_discard, score_deck);
     printf("\t"); DisplayHand(state, player, "Player1");
@@ -314,25 +259,26 @@ int ScoreForTestB(struct gameState *state, int player)
   int flagFail = 0, assertReturn;
   int score_hand ,score_discard, score_deck, total_score, scoreForReturn;
   int total_cards = state->handCount[player] + state->discardCount[player] + state->deckCount[player];
-  int i;
 
-  // Fill Piles with Coppers!
-  for(i=0; i<state->handCount[player]; i++)
-  { state->hand[player][i] = copper; }
-  for(i=0; i<state->discardCount[player]; i++)
-  { state->discard[player][i] = copper; }
-  for(i=0; i<state->deckCount[player]; i++)
-  { state->deck[player][i] = copper; }
+ // Set Up Piles (or should I set Default ones?)
+  HandGenerator(state, player, state->handCount[player], curse, treasure_map);
+  DiscardGenerator(state, player, state->discardCount[player], curse, treasure_map);
+  DeckGenerator(state, player, state->deckCount[player], curse, treasure_map);
 
   // Set Last Cards in Each Pile to a Specific Card for Checking Offsets
   state->hand[player][state->handCount[player]-1] = great_hall;  // +1
   state->discard[player][state->discardCount[player]-1] = duchy; // +3
   state->deck[player][state->deckCount[player]-1] = province;    // +6
 
-   // Calculations for Comparisons
-  score_hand = (HandCardCount(state, player, curse)*-1) + (HandCardCount(state, player, estate)*1) + (HandCardCount(state, player, duchy)*3) + (HandCardCount(state, player, province)*6) + (HandCardCount(state, player, great_hall)*1) + (HandCardCount(state, player, gardens)*(total_cards/10));
-  score_discard = (DiscardCardCount(state, player, curse)*-1) + (DiscardCardCount(state, player, estate)*1) + (DiscardCardCount(state, player, duchy)*3) + (DiscardCardCount(state, player, province)*6) + (DiscardCardCount(state, player, great_hall)*1) + (DiscardCardCount(state, player, gardens)*(total_cards/10));
-  score_deck = (DeckCardCount(state, player, curse)*-1) + (DeckCardCount(state, player, estate)*1) + (DeckCardCount(state, player, duchy)*3) + (DeckCardCount(state, player, province)*6) + (DeckCardCount(state, player, great_hall)*1) + (DeckCardCount(state, player, gardens)*(total_cards/10));
+  // Count gardens ... need a better way for this ..
+  int gardens_hand = HandCardCount(state, player, gardens);
+  int gardens_discard = DiscardCardCount(state, player, gardens);
+  int gardens_deck = DeckCardCount(state, player, gardens);
+
+  // Calculations for Comparisons
+  score_hand = (HandCardCount(state, player, curse)*-1) + (HandCardCount(state, player, estate)*1) + (HandCardCount(state, player, duchy)*3) + (HandCardCount(state, player, province)*6) + (HandCardCount(state, player, great_hall)*1) + (gardens_hand*(total_cards/10));
+  score_discard = (DiscardCardCount(state, player, curse)*-1) + (DiscardCardCount(state, player, estate)*1) + (DiscardCardCount(state, player, duchy)*3) + (DiscardCardCount(state, player, province)*6) + (DiscardCardCount(state, player, great_hall)*1) + (gardens_discard*(total_cards/10));
+  score_deck = (DeckCardCount(state, player, curse)*-1) + (DeckCardCount(state, player, estate)*1) + (DeckCardCount(state, player, duchy)*3) + (DeckCardCount(state, player, province)*6) + (DeckCardCount(state, player, great_hall)*1) + (gardens_deck*(total_cards/10));
 
   total_score = score_hand + score_discard + score_deck;
 
@@ -344,12 +290,16 @@ int ScoreForTestB(struct gameState *state, int player)
 
   if(flagFail)
   {
-    printf("  *Test Information:\n");
+    printf("Test Information:\n");
     printf("\tTotal Cards: %d ; Hand Count: %d ; Discard Count: %d ; Deck Count: %d\n",total_cards,state->handCount[player],state->discardCount[player],state->deckCount[player] );
     printf("\tCalculated Scores: Hand = %d ; Discard = %d ; Deck = %d\n",score_hand, score_discard, score_deck);
     printf("\t"); DisplayHand(state, player, "Player1");
     printf("\t"); DisplayDiscard(state, player, "Player1");
     printf("\t"); DisplayDeck(state, player, "Player1");
+    if(gardens_hand || gardens_discard || gardens_deck)
+    {
+      printf("\tGardens Detected: Hand = %d ; Discard = %d ; Deck = %d\n", gardens_hand, gardens_discard, gardens_deck);
+    }
   }
 
   return flagFail;
