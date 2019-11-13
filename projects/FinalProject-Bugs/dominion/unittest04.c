@@ -33,7 +33,6 @@ int AssertTest(int pass, char* msg)
     }
     else
     {
-        // OR NOT SAY ANYTHING?
         printf("PASS: %s\n", msg);
         return 0;
     }
@@ -51,8 +50,6 @@ void DisplayDiscard(struct gameState *state, int player, char* msg);
 void DisplayDeck(struct gameState *state, int player, char* msg);
 
 int HandCardCount(struct gameState *state, int player, int choice1);
-int HandCardCount2(struct gameState *state, int player, int choice1, int handPos);
-int CheckShuffle(struct gameState *state_old, struct gameState *state_new, int player);  // retVal == 1 good, retVal <1 no shuffle
 int RemodelTest(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int* bonus);
 
 
@@ -62,13 +59,12 @@ int main(int argc, char** argv){
   /* -- Variables for Comparison, Checks, and Vericiations -- */
 
   // Iterators
-  int i,j;
+  //int i,j;
 
   // setup/initialize paramters
   srand(time(0));
   int seed = rand();
   int player1 = 0;
-  //int player2 = 1;
   int num_players = 2;
 
   int remodelReturn; 
@@ -123,12 +119,7 @@ int main(int argc, char** argv){
 
   // If there was a fault detected then print out test parameter information
   if(remodelReturn)
-  {
-    printf("-- Test #1 - Fault Detected --\n");// Print out Test Info and Test Parameters
-    printf("\tChoice 1: %d ; Choice 2: %d\n", state.hand[player1][choice1], choice2);
-    printf("\tChoice 1 Value: %d ; Choice 2 Value: %d\n", getCost(state.hand[player1][choice1]), getCost(choice2));
-    // show costs?
-  }
+  { printf("-- Test #1 - Fault Detected --\n"); }
   else {printf("-- Test #1 - Valid --\n");}
   
 
@@ -158,12 +149,7 @@ int main(int argc, char** argv){
 
   // If there was a fault detected then print out test parameter information
   if(remodelReturn)
-  {
-    printf("-- Test #2 - Fault Detected --\n");// Print out Test Info and Test Parameters
-    printf("\tChoice 1: %d ; Choice 2: %d\n", state.hand[player1][choice1], choice2);
-    printf("\tChoice 1 Value: %d ; Choice 2 Value: %d\n", getCost(state.hand[player1][choice1]), getCost(choice2));
-    // show costs?
-  }
+  { printf("-- Test #2 - Fault Detected --\n"); }
   else {printf("-- Test #2 - Valid --\n");}
   
   /* -- Test 3 (choice1 + 2 > choice 2) -- */
@@ -192,15 +178,38 @@ int main(int argc, char** argv){
 
   // If there was a fault detected then print out test parameter information
   if(remodelReturn)
-  {
-    printf("-- Test #3 - Fault Detected --\n");// Print out Test Info and Test Parameters
-    printf("\tChoice 1: %d ; Choice 2: %d\n", state.hand[player1][choice1], choice2);
-    printf("\tChoice 1 Value: %d ; Choice 2 Value: %d\n", getCost(state.hand[player1][choice1]), getCost(choice2));
-    // show costs?
-  }
+  { printf("-- Test #3 - Fault Detected --\n"); }
   else {printf("-- Test #3 - Valid --\n");}
   
 
+  /* -- Test 4 (choice1 + 2 >= choice 2 w/ choice2 supply at 0) -- */ 
+  printf("_____ TEST #4 _____\n");
+  // Initialize Game
+  memset(&state, 0, sizeof(struct gameState));
+  initializeGame(num_players, k, seed, &state);
+
+  // Set-up Test Parameters
+  card = remodel;
+  remodelReturn = 0;
+
+  // Set-up Hand Parameters and choice Parameters & Supply Counts
+  state.handCount[player1] = 5;
+  HandGenerator(&state, player1,state.handCount[player1], 0, treasure_map);
+  handPos = 0;
+  choice1 = 1;
+  choice2 = estate;
+  choice3 = 0;  // Only used as an input for cardEffect function. Does not get executed within remodel case
+  state.hand[player1][handPos] = remodel;
+  state.hand[player1][choice1] = copper;
+  state.supplyCount[choice2] = 0;
+
+  // Call Remodel Card Test
+  remodelReturn = RemodelTest(card, choice1, choice2, choice3, &state, handPos, &bonus);
+
+  // If there was a fault detected then print out test parameter information
+  if(remodelReturn)
+  { printf("-- Test #4 - Fault Detected --\n"); }
+  else {printf("-- Test #4 - Valid --\n");}
 
 
 
@@ -259,16 +268,30 @@ int RemodelTest(int card, int choice1, int choice2, int choice3, struct gameStat
 
     // +2 Discard Count
     assertReturn = AssertTest((testState.discardCount[player] == state->discardCount[player]+2), "+2 Discard Count (remodel & choice2)");
-    if(assertReturn){flagFail = 1; printf("\tDiscard Count: Current = %d, Expected = %d\n", testState.discardCount[player], state->discardCount[player]+2); DisplayDiscard(&testState, player, "Player1");}
+    if(assertReturn){flagFail = 1; printf("\tDiscard Count: Current = %d, Expected = %d\n", testState.discardCount[player], state->discardCount[player]+2);}
 
     // +1 Trashed Count
 
-    // -1 choice2 Supply Count
-    assertReturn = AssertTest((supplyCount(choice2, &testState) == supplyCount(choice2, state)-1), "-1 choice2 Supply Count");
-    if(assertReturn){flagFail = 1; printf("\tchoice2 Supply Count: Current= %d, Expected = %d\n", supplyCount(choice2, &testState), supplyCount(choice2, state)-1);}    
-
+    // -1 choice2 Supply Count (if supply is not already at zero)
+    if(testState.supplyCount[choice2] <= 0)
+    {
+      assertReturn = AssertTest((supplyCount(choice2, &testState) == supplyCount(choice2, state)), "choice2 Supply Count Already Empty");
+      if(assertReturn){flagFail = 1; printf("\tchoice2 Supply Count: Current= %d, Expected = %d\n", supplyCount(choice2, &testState), supplyCount(choice2, state));}  
+    }
+    else
+    {
+      assertReturn = AssertTest((supplyCount(choice2, &testState) == supplyCount(choice2, state)-1), "-1 choice2 Supply Count");
+      if(assertReturn){flagFail = 1; printf("\tchoice2 Supply Count: Current= %d, Expected = %d\n", supplyCount(choice2, &testState), supplyCount(choice2, state)-1);}  
+    }
   }
-  
+  // If Fault Detected then Print Out More Information
+  if(flagFail)
+  {
+    printf("  *Test Information: \n");
+    printf("\tChoice 1: %d ; Choice 2: %d\n", state->hand[player][choice1], choice2);
+    printf("\tChoice 1 Value: %d ; Choice 2 Value: %d\n", getCost(state->hand[player][choice1]), getCost(choice2));   
+  }
+
 
   return flagFail;
 }
@@ -378,39 +401,7 @@ int HandCardCount(struct gameState *state, int player, int card)
     return count;
 }
 
-// count of duplicate cards matching specific card.
-int HandCardCount2(struct gameState *state, int player, int choice1, int handPos)
-{
-    int count = 0;
-    int i;
-    for (i = 0; i < state->handCount[player]; i++)
-    {
-        if (i != handPos && state->hand[player][i] == state->hand[player][choice1] && i != choice1) 
-        {
-            count++;
-        }
-    }
 
-    return count;
-}
-
-// Compare that Pile was Shuffled (careful with small sample sizes ...)
-int CheckShuffle(struct gameState *state_old, struct gameState *state_new, int player)
-{
-  int retVal = -1;
-  int i;
-  // Only compare against the current deck count (since old discard count will be higher after cards are played)
-  for(i=0; i<state_new->deckCount[player]; i++)
-  {
-    if(state_new->deck[player][i] != state_old->discard[player][i])
-    {
-        retVal = 1;
-        break;
-    }
-  }
-
-    return retVal;
-}
 
 
 
