@@ -1,6 +1,6 @@
 /* 
  * Course: OSU CS 362 - Software Engineering II
- * Assignment: Final ProjectAssignment 3 Learn How to Create Unit Tests
+ * Assignment: Final Project 
  * Author: Alexander Goodman
  * Due Date: 03 December 2019
  * 
@@ -33,7 +33,6 @@ int AssertTest(int pass, char* msg)
     }
     else
     {
-        // OR NOT SAY ANYTHING?
         printf("PASS: %s\n", msg);
         return 0;
     }
@@ -43,17 +42,9 @@ int AssertTest(int pass, char* msg)
 
 /* -- Helper Function Prototypes -- */
 void DisplayEmptySupply(struct gameState *state);
-void HandGenerator(struct gameState *state, int player, int size, int min, int max);
-void DiscardGenerator(struct gameState *state, int player, int size, int min, int max);
-void DeckGenerator(struct gameState *state, int player, int size, int min, int max);
-
 void DisplayHand(struct gameState *state, int player, char* msg);
 void DisplayDiscard(struct gameState *state, int player, char* msg);
 void DisplayDeck(struct gameState *state, int player, char* msg);
-
-int HandCardCount(struct gameState *state, int player, int choice1);
-int HandCardCount2(struct gameState *state, int player, int choice1, int handPos);
-int CheckShuffle(struct gameState *state_old, struct gameState *state_new, int player);  // retVal == 1 good, retVal <1 no shuffle
 
 
 /* -- MAIN FUNCTION -- */
@@ -233,9 +224,9 @@ int main(int argc, char** argv){
 }
 
 
-
 /* -- Helper Functions -- */
 
+// Display All the Card Piles that are Empty
 void DisplayEmptySupply(struct gameState *state)
 {
   int i = 0;
@@ -249,63 +240,6 @@ void DisplayEmptySupply(struct gameState *state)
     i++;
   }
 
-}
-
-// Random Hand Generator 
-void HandGenerator(struct gameState *state, int player, int size, int min, int max)
-{
-  int i;
-  if(min > max)
-  {
-      int temp = min;
-      min = max;
-      max = temp;
-  }
-
-  for(i=0; i<size; i++)
-  {
-      state->hand[player][i] = (rand()%(max-min+1))+min;
-  }
-
-  return;
-}
-
-// Random Discard Generator 
-void DiscardGenerator(struct gameState *state, int player, int size, int min, int max)
-{
-  int i;
-  if(min > max)
-  {
-      int temp = min;
-      min = max;
-      max = temp;
-  }
-
-  for(i=0; i<size; i++)
-  {
-      state->discard[player][i] = (rand()%(max-min+1))+min;
-  }
-
-  return;
-}
-
-// Random Deck Generator 
-void DeckGenerator(struct gameState *state, int player, int size, int min, int max)
-{
-  int i;
-  if(min > max)
-  {
-      int temp = min;
-      min = max;
-      max = temp;
-  }
-
-  for(i=0; i<size; i++)
-  {
-      state->deck[player][i] = (rand()%(max-min+1))+min;
-  }
-
-  return;
 }
 
 
@@ -340,53 +274,8 @@ void DisplayDeck(struct gameState *state, int player, char* msg)
     printf("\n");
 }  
 
-// Count of a specific card in hand.
-int HandCardCount(struct gameState *state, int player, int card)
-{
-    int count = 0;
-    int i;
 
-    for (i = 0; i < state->handCount[player]; i++)
-    {
-        if (state->hand[player][i] == card) count++;
-    }
 
-    return count;
-}
-
-// count of duplicate cards matching specific card.
-int HandCardCount2(struct gameState *state, int player, int choice1, int handPos)
-{
-    int count = 0;
-    int i;
-    for (i = 0; i < state->handCount[player]; i++)
-    {
-        if (i != handPos && state->hand[player][i] == state->hand[player][choice1] && i != choice1) 
-        {
-            count++;
-        }
-    }
-
-    return count;
-}
-
-// Compare that Pile was Shuffled (careful with small sample sizes ...)
-int CheckShuffle(struct gameState *state_old, struct gameState *state_new, int player)
-{
-  int retVal = -1;
-  int i;
-  // Only compare against the current deck count (since old discard count will be higher after cards are played)
-  for(i=0; i<state_new->deckCount[player]; i++)
-  {
-    if(state_new->deck[player][i] != state_old->discard[player][i])
-    {
-        retVal = 1;
-        break;
-    }
-  }
-
-    return retVal;
-}
 
 
 

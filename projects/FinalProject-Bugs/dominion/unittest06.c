@@ -1,6 +1,6 @@
 /* 
  * Course: OSU CS 362 - Software Engineering II
- * Assignment: Final ProjectAssignment 3 Learn How to Create Unit Tests
+ * Assignment: Final Project
  * Author: Alexander Goodman
  * Due Date: 03 December 2019
  * 
