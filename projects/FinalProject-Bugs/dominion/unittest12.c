@@ -33,7 +33,6 @@ int AssertTest(int pass, char* msg)
     }
     else
     {
-        // OR NOT SAY ANYTHING?
         printf("PASS: %s\n", msg);
         return 0;
     }
@@ -88,7 +87,7 @@ int main(int argc, char** argv){
     4. choice2 & player2 Hand Count == 4
     5. choice2 & player2 Hand Count < 4
     6. choice2 & player1 & player2 Hand Coutnt < 4
-    7. choice2: 3 playes (player2 Hand Count < 4 & player3 Hand Count > 4)
+    7. choice2: 3 players (player2 Hand Count < 4 & player3 Hand Count > 4)
     8*. different handPos..
   -- */
 
@@ -102,7 +101,7 @@ int main(int argc, char** argv){
 
   /* -- Test 1 (No Choice Selection) -- */
   printf("_____ TEST #1 _____\n");
-
+  // Player Choices
   choice1 = 0;
   choice2 = 0;
   bonus = 0;
@@ -123,9 +122,10 @@ int main(int argc, char** argv){
   minionReturn = MinionTest(card, choice1, choice2, choice3, &state, handPos, &bonus, num_players);
   if(minionReturn) { /* -- Placeholder -- */ }
 
+
   /* -- Test 2 (choice1) -- */
   printf("_____ TEST #2 _____\n");
- 
+   // Player Choices
   choice1 = 1;
   choice2 = 0;
   bonus = 0;
@@ -146,8 +146,10 @@ int main(int argc, char** argv){
   minionReturn = MinionTest(card, choice1, choice2, choice3, &state, handPos, &bonus, num_players);
   if(minionReturn) { /* -- FAULT -- */ }
 
+
   /* -- Test 3 (choice2: player2 handCount > 4) -- */
   printf("_____ TEST #3 _____\n");
+  // Player Choices
   choice1 = 0;
   choice2 = 2;
   bonus = 0;
@@ -167,8 +169,10 @@ int main(int argc, char** argv){
 
   minionReturn = MinionTest(card, choice1, choice2, choice3, &state, handPos, &bonus, num_players);
 
+
   /* -- Test 4 (choice2: player2 handCount == 4) -- */
   printf("_____ TEST #4 _____\n");
+  // Player Choices
   choice1 = 0;
   choice2 = 2;
   bonus = 0;
@@ -188,8 +192,10 @@ int main(int argc, char** argv){
 
   minionReturn = MinionTest(card, choice1, choice2, choice3, &state, handPos, &bonus, num_players);
 
+
   /* -- Test 5 (choice2: player2 handCount < 4) -- */
   printf("_____ TEST #5 _____\n");
+  // Player Choices
   choice1 = 0;
   choice2 = 2;
   bonus = 0;
@@ -209,8 +215,10 @@ int main(int argc, char** argv){
 
   minionReturn = MinionTest(card, choice1, choice2, choice3, &state, handPos, &bonus, num_players);
 
+
   /* -- Test 6 (choice2: player1 & player2 handCount < 4) -- */
   printf("_____ TEST #6 _____\n");
+  // Player Choices
   choice1 = 0;
   choice2 = 2;
   bonus = 0;
@@ -230,9 +238,10 @@ int main(int argc, char** argv){
 
   minionReturn = MinionTest(card, choice1, choice2, choice3, &state, handPos, &bonus, num_players);
 
+
   /* -- Test 7 (choice2: 3 players (player2 handCount <4 & player3 handCount > 4) -- */
   printf("_____ TEST #7 _____\n");
-
+  // Player Choices
   choice1 = 0;
   choice2 = 2;
   bonus = 0;

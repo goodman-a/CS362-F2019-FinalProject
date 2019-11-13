@@ -44,7 +44,7 @@ unittestresults: unittest04.c unittest05.c unittest06.c unittest12.c dominion.o 
 	./unittest12 >> unittestresults.out
 
 	gcov -c -b -f dominion.c >> unittestresults.out
-	cat dominion.c gcov >> unittestresults.out
+	cat dominion.c.gcov >> unittestresults.out
 
 
 unittest04: unittest04.c dominion.o rngs.o

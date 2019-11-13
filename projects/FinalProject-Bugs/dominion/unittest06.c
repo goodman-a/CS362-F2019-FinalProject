@@ -9,7 +9,7 @@
  * File Description: Unit Test for the scoreFor().
  * 
  * Function:
- *   int scoreFor (int player, struct gameState *state)
+ *   int scoreFor(int player, struct gameState *state)
  * 
  */
 
@@ -33,7 +33,6 @@ int AssertTest(int pass, char* msg)
     }
     else
     {
-        // OR NOT SAY ANYTHING?
         printf("PASS: %s\n", msg);
         return 0;
     }
@@ -42,11 +41,6 @@ int AssertTest(int pass, char* msg)
 
 
 /* -- Helper Function Prototypes -- */
-void DisplayEmptySupply(struct gameState *state);
-void HandGenerator(struct gameState *state, int player, int size, int min, int max);
-void DiscardGenerator(struct gameState *state, int player, int size, int min, int max);
-void DeckGenerator(struct gameState *state, int player, int size, int min, int max);
-
 void DisplayHand(struct gameState *state, int player, char* msg);
 void DisplayDiscard(struct gameState *state, int player, char* msg);
 void DisplayDeck(struct gameState *state, int player, char* msg);
@@ -54,12 +48,10 @@ void DisplayDeck(struct gameState *state, int player, char* msg);
 int HandCardCount(struct gameState *state, int player, int choice1);
 int DiscardCardCount(struct gameState *state, int player, int card);
 int DeckCardCount(struct gameState *state, int player, int card);
-int HandCardCount2(struct gameState *state, int player, int choice1, int handPos);
-int CheckShuffle(struct gameState *state_old, struct gameState *state_new, int player);  // retVal == 1 good, retVal <1 no shuffle
-
 
 int ScoreForTestA(struct gameState *state, int player);
 int ScoreForTestB(struct gameState *state, int player);
+
 
 /* -- MAIN FUNCTION -- */
 int main(int argc, char** argv){
@@ -106,7 +98,7 @@ int main(int argc, char** argv){
 
   printf("\n********** Bug 06 (scoreFor()) Unit Test **********\n");
 
-  printf("----- BUG 06 TEST SET A (Hand == Discard == Deck) -----\n");
+  printf("----- BUG 06 TEST SET A (HandCount == DiscardCount == DeckCount) -----\n");
   // Initialize Game
   memset(&state, 0, sizeof(struct gameState));
   initializeGame(num_players, k, seed, &state);
@@ -128,6 +120,7 @@ int main(int argc, char** argv){
   struct gameState testState;
   memcpy(&testState, &state, sizeof(struct gameState));
 
+
   /* -- Test 1A (No Victory Cards Present) -- */
     printf("_____ TEST #1A _____\n");
   // Set-up Test Game State
@@ -135,6 +128,7 @@ int main(int argc, char** argv){
   memcpy(&testState, &state, sizeof(struct gameState));
 
   scoreReturn = ScoreForTestA(&testState, player);
+
 
   /* -- Test 2A (Only Copper, Estates, & Duchy) -- */
       printf("_____ TEST #2A _____\n");
@@ -152,6 +146,7 @@ int main(int argc, char** argv){
 
   scoreReturn = ScoreForTestA(&testState, player);
 
+
   /* -- Test 3A (Curse Added) -- */
   printf("_____ TEST #3A _____\n");
   // Set-up Test Game State
@@ -164,6 +159,7 @@ int main(int argc, char** argv){
   testState.deck[player][state.deckCount[player]-1] = curse;
 
   scoreReturn = ScoreForTestA(&testState, player);
+
 
   /* -- Test 4A (Gardens Added) -- */
   printf("_____ TEST #4A _____\n");
@@ -181,7 +177,6 @@ int main(int argc, char** argv){
 
   printf("----- BUG 06 TEST SET B (Varying Pile Sizes) -----\n");
 
-
   /* -- Test 1B (handCount = discardCount = deckCount) */
   printf("_____ TEST #1B _____\n");
 
@@ -196,8 +191,7 @@ int main(int argc, char** argv){
 
   // Run the Test
   scoreReturn = ScoreForTestB(&state, player);
-  if(scoreReturn)
-  { /* Nothing for Now */ }
+  if(scoreReturn) { /* Nothing for Now */ }
 
 
   /* -- Test 2B (handCount < discardCount ; discardCount == deckCount) */
@@ -231,6 +225,7 @@ int main(int argc, char** argv){
   // Run the Test
   scoreReturn = ScoreForTestB(&state, player);
 
+
   /* -- Test 4B (handCount < discardCount ; discardCount > deckCount) */
   printf("_____ TEST #4B _____\n");
 
@@ -254,7 +249,6 @@ int main(int argc, char** argv){
   memset(&state, 23, sizeof(struct gameState));
   initializeGame(num_players, k, seed, &state);
 
-
   // Set-up Parameters
   state.handCount[player] = 0;
   state.discardCount[player] = 0;
@@ -263,14 +257,12 @@ int main(int argc, char** argv){
   // Run the Test
   scoreReturn = ScoreForTestB(&state, player);
 
-
-
-
-
-  return 0;
+  return 0;  // end of main
 }
 
+
 /* -- ScoreForTestA -- */
+// Assert Tests with Varying Differnt Victory Cards
 int ScoreForTestA(struct gameState *state, int player)
 {
   // Variables 
@@ -306,8 +298,8 @@ int ScoreForTestA(struct gameState *state, int player)
 }
 
 
-
 /* -- ScoreForTestB -- */
+// Assert Tests with Varying Pile Sizes
 int ScoreForTestB(struct gameState *state, int player)
 {
   // Variables 
@@ -356,8 +348,6 @@ int ScoreForTestB(struct gameState *state, int player)
 }
 
 
-
-
 /* -- Helper Functions -- */
 
 // Count of a specific card in hand.
@@ -404,83 +394,6 @@ int DeckCardCount(struct gameState *state, int player, int card)
 
 
 
-
-
-
-
-void DisplayEmptySupply(struct gameState *state)
-{
-  int i = 0;
-  while(i<=treasure_map)
-  {
-    if(state->supplyCount[i] == 0)
-    {
-      printf("\tEnum Card %d Supply is Empty\n", i);
-    }
-
-    i++;
-  }
-
-}
-
-// Random Hand Generator 
-void HandGenerator(struct gameState *state, int player, int size, int min, int max)
-{
-  int i;
-  if(min > max)
-  {
-      int temp = min;
-      min = max;
-      max = temp;
-  }
-
-  for(i=0; i<size; i++)
-  {
-      state->hand[player][i] = (rand()%(max-min+1))+min;
-  }
-
-  return;
-}
-
-// Random Discard Generator 
-void DiscardGenerator(struct gameState *state, int player, int size, int min, int max)
-{
-  int i;
-  if(min > max)
-  {
-      int temp = min;
-      min = max;
-      max = temp;
-  }
-
-  for(i=0; i<size; i++)
-  {
-      state->discard[player][i] = (rand()%(max-min+1))+min;
-  }
-
-  return;
-}
-
-// Random Deck Generator 
-void DeckGenerator(struct gameState *state, int player, int size, int min, int max)
-{
-  int i;
-  if(min > max)
-  {
-      int temp = min;
-      min = max;
-      max = temp;
-  }
-
-  for(i=0; i<size; i++)
-  {
-      state->deck[player][i] = (rand()%(max-min+1))+min;
-  }
-
-  return;
-}
-
-
 // Display Cards in Hand, Discard, and Deck Piles
 void DisplayHand(struct gameState *state, int player, char* msg)
 {
@@ -512,40 +425,6 @@ void DisplayDeck(struct gameState *state, int player, char* msg)
     printf("\n");
 }  
 
-
-// count of duplicate cards matching specific card.
-int HandCardCount2(struct gameState *state, int player, int choice1, int handPos)
-{
-    int count = 0;
-    int i;
-    for (i = 0; i < state->handCount[player]; i++)
-    {
-        if (i != handPos && state->hand[player][i] == state->hand[player][choice1] && i != choice1) 
-        {
-            count++;
-        }
-    }
-
-    return count;
-}
-
-// Compare that Pile was Shuffled (careful with small sample sizes ...)
-int CheckShuffle(struct gameState *state_old, struct gameState *state_new, int player)
-{
-  int retVal = -1;
-  int i;
-  // Only compare against the current deck count (since old discard count will be higher after cards are played)
-  for(i=0; i<state_new->deckCount[player]; i++)
-  {
-    if(state_new->deck[player][i] != state_old->discard[player][i])
-    {
-        retVal = 1;
-        break;
-    }
-  }
-
-    return retVal;
-}
 
 
 
