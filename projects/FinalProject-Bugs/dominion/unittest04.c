@@ -119,9 +119,7 @@ int main(int argc, char** argv){
 
   // If there was a fault detected then print out test parameter information
   if(remodelReturn)
-  { printf("-- Test #1 - Fault Detected --\n"); }
-  else {printf("-- Test #1 - Valid --\n");}
-  
+  { /* -- Nothing for Now -- */ }
 
   /* -- Test 2 (choice1 + 2 == choice 2) -- */
   printf("_____ TEST #2 _____\n");
@@ -147,10 +145,6 @@ int main(int argc, char** argv){
   // Call Remodel Card Test
   remodelReturn = RemodelTest(card, choice1, choice2, choice3, &state, handPos, &bonus);
 
-  // If there was a fault detected then print out test parameter information
-  if(remodelReturn)
-  { printf("-- Test #2 - Fault Detected --\n"); }
-  else {printf("-- Test #2 - Valid --\n");}
   
   /* -- Test 3 (choice1 + 2 > choice 2) -- */
   printf("_____ TEST #3 _____\n");
@@ -175,11 +169,6 @@ int main(int argc, char** argv){
 
   // Call Remodel Card Test
   remodelReturn = RemodelTest(card, choice1, choice2, choice3, &state, handPos, &bonus);
-
-  // If there was a fault detected then print out test parameter information
-  if(remodelReturn)
-  { printf("-- Test #3 - Fault Detected --\n"); }
-  else {printf("-- Test #3 - Valid --\n");}
   
 
   /* -- Test 4 (choice1 + 2 >= choice 2 w/ choice2 supply at 0) -- */ 
@@ -205,12 +194,6 @@ int main(int argc, char** argv){
 
   // Call Remodel Card Test
   remodelReturn = RemodelTest(card, choice1, choice2, choice3, &state, handPos, &bonus);
-
-  // If there was a fault detected then print out test parameter information
-  if(remodelReturn)
-  { printf("-- Test #4 - Fault Detected --\n"); }
-  else {printf("-- Test #4 - Valid --\n");}
-
 
 
 
