@@ -28,7 +28,7 @@ runtests: testDrawCard
 
 
 # Final Project
-unittestresults: unittest02.c unittest04.c unittest05.c unittest06.c unittest12.c dominion.o rngs.o
+unittestresults: unittest02.c unittest04.c unittest05.c unittest06.c unittest08.c unittest10.c unittest12.c dominion.o rngs.o
 	echo "unittest02.c:" >> unittestresults.out
 	gcc -o unittest02 -g unittest02.c dominion.o rngs.o $(CFLAGS)
 	echo "unittest04.c:" >> unittestresults.out
@@ -39,6 +39,8 @@ unittestresults: unittest02.c unittest04.c unittest05.c unittest06.c unittest12.
 	gcc -o unittest06 -g unittest06.c dominion.o rngs.o $(CFLAGS)
 	echo "unittest08.c:" >> unittestresults.out
 	gcc -o unittest08 -g unittest08.c dominion.o rngs.o $(CFLAGS)
+	echo "unittest10.c:" >> unittestresults.out
+	gcc -o unittest10 -g unittest10.c dominion.o rngs.o $(CFLAGS)
 	echo "unittest12.c:" >> unittestresults.out
 	gcc -o unittest12 -g unittest12.c dominion.o rngs.o $(CFLAGS)
 
@@ -47,6 +49,7 @@ unittestresults: unittest02.c unittest04.c unittest05.c unittest06.c unittest12.
 	./unittest05 >> unittestresults.out
 	./unittest06 >> unittestresults.out
 	./unittest08 >> unittestresults.out
+	./unittest10 >> unittestresults.out
 	./unittest12 >> unittestresults.out
 
 	gcov -c -b -f dominion.c >> unittestresults.out
@@ -66,6 +69,9 @@ unittest06: unittest06.c dominion.o rngs.o
 
 unittest08: unittest08.c dominion.o rngs.o
 	gcc -o unittest08 -g unittest08.c dominion.o rngs.o $(CFLAGS)
+
+unittest10: unittest10.c dominion.o rngs.o
+	gcc -o unittest10 -g unittest10.c dominion.o rngs.o $(CFLAGS)
 
 unittest12: unittest12.c dominion.o rngs.o
 	gcc -o unittest12 -g unittest12.c dominion.o rngs.o $(CFLAGS)
