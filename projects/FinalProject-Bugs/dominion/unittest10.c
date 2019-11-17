@@ -2,7 +2,7 @@
 * Name: Samantha Guilbeault
 * Date: 11-16-2019
 * Description: Contains unit tests for Bug10
-* Bug02: Case tribute reward loop does not handle invalid/null cards in revealed array
+* Bug10: Case tribute reward loop does not handle invalid/null cards in revealed array
 *
 * Test 1: Next player reveals 0 cards
 * Test 2: Next player reveals 1 treasure card

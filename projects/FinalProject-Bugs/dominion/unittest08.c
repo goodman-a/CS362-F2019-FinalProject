@@ -2,7 +2,7 @@
 * Name: Samantha Guilbeault
 * Date: 11-16-2019
 * Description: Contains unit tests for Bug08
-* Bug02: Case tribute reward loop overruns revealed card array
+* Bug08: Case tribute reward loop overruns revealed card array
 *
 * Test 1: Next player reveals 0 cards
 * Test 2: Next player reveals 1 treasure card
