@@ -37,6 +37,8 @@ unittestresults: unittest02.c unittest04.c unittest05.c unittest06.c unittest12.
 	gcc -o unittest05 -g unittest05.c dominion.o rngs.o $(CFLAGS)
 	echo "unittest06.c:" >> unittestresults.out
 	gcc -o unittest06 -g unittest06.c dominion.o rngs.o $(CFLAGS)
+	echo "unittest08.c:" >> unittestresults.out
+	gcc -o unittest08 -g unittest08.c dominion.o rngs.o $(CFLAGS)
 	echo "unittest12.c:" >> unittestresults.out
 	gcc -o unittest12 -g unittest12.c dominion.o rngs.o $(CFLAGS)
 
@@ -44,6 +46,7 @@ unittestresults: unittest02.c unittest04.c unittest05.c unittest06.c unittest12.
 	./unittest04 >> unittestresults.out
 	./unittest05 >> unittestresults.out
 	./unittest06 >> unittestresults.out
+	./unittest08 >> unittestresults.out
 	./unittest12 >> unittestresults.out
 
 	gcov -c -b -f dominion.c >> unittestresults.out
@@ -60,6 +63,9 @@ unittest05: unittest05.c dominion.o rngs.o
 
 unittest06: unittest06.c dominion.o rngs.o
 	gcc -o unittest06 -g unittest06.c dominion.o rngs.o $(CFLAGS)
+
+unittest08: unittest08.c dominion.o rngs.o
+	gcc -o unittest08 -g unittest08.c dominion.o rngs.o $(CFLAGS)
 
 unittest12: unittest12.c dominion.o rngs.o
 	gcc -o unittest12 -g unittest12.c dominion.o rngs.o $(CFLAGS)
