@@ -120,9 +120,9 @@ int main()
 	MY_ASSERT(G.deckCount[nextPlayer] == nextDeckCountBefore - 1, "one card revealed");
 	printf("  next player's deck count: %d, expected: %d\n", G.deckCount[nextPlayer], nextDeckCountBefore - 1);
 
-	// revealed card is a treasure
-	MY_ASSERT(G.discard[nextPlayer][0] > 3 && G.discard[nextPlayer][0] < 7, "revealed card is a treasure");
-	printf("  revealed card value: %d, expected: 3-6\n", G.discard[nextPlayer][0]);
+	// revealed card is a treasure - copper
+	MY_ASSERT(G.discard[nextPlayer][0] == revealedCards[0], "revealed card is a copper");
+	printf("  revealed card value: %d, expected: %d\n", G.discard[nextPlayer][0], revealedCards[0]);
 
 	// exactly 2 coins are gained
 	MY_ASSERT(G.coins == coinsBefore + 2, "two coins gained");
