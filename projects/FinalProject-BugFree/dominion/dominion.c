@@ -1063,16 +1063,17 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
             }
             tributeRevealedCards[0] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
             state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
-            state->deckCount[nextPlayer]--;
+            //state->deckCount[nextPlayer]--;  //Removed for Bug02 fix testing
             tributeRevealedCards[1] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
             state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
-            state->deckCount[nextPlayer]--;
+            //state->deckCount[nextPlayer]--;  //Removed for Bug02 fix testing
         }
 
         if (tributeRevealedCards[0] == tributeRevealedCards[1]) { //If we have a duplicate card, just drop one
-            state->playedCards[state->playedCardCount] = tributeRevealedCards[1];
-            state->playedCardCount++;
-            tributeRevealedCards[1] = -1;
+			// Bug02 Fix - return revealed cards to next player's discard
+			state->discard[nextPlayer][state->discardCount[nextPlayer]] = tributeRevealedCards[1];
+			state->discardCount[nextPlayer]++;
+			tributeRevealedCards[1] = -1;
         }
 
         for (i = 0; i <= 2; i ++) {
@@ -1087,6 +1088,12 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
             else { //Action Card
                 state->numActions = state->numActions + 2;
             }
+
+			// Bug02 Fix - Return revealed cards to next player's discard
+			if (tributeRevealedCards[i] >= 0 && tributeRevealedCards[i] <= 26) { //Valid cards
+				state->discard[nextPlayer][state->discardCount[nextPlayer]] = tributeRevealedCards[i];
+				state->discardCount[nextPlayer]++;
+			}
         }
 
         return 0;
