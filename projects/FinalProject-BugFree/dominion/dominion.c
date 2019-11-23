@@ -1069,7 +1069,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
                 drawCard(currentPlayer, state);
                 drawCard(currentPlayer, state);
             }
-            else { //Action Card
+			else if (tributeRevealedCards[i] > 1 && tributeRevealedCards[i] <= 26) { //Action Card
                 state->numActions = state->numActions + 2;
             }
 
