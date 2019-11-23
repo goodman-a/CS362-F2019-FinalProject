@@ -46,6 +46,8 @@ unittestresults: unittest04.c unittest05.c unittest06.c unittest12.c dominion.o 
 	gcov -c -b -f dominion.c >> unittestresults.out
 	cat dominion.c.gcov >> unittestresults.out
 
+unittest02: unittest02.c dominion.o rngs.o
+	gcc -o unittest02 -g unittest02.c dominion.o rngs.o $(CFLAGS)
 
 unittest04: unittest04.c dominion.o rngs.o
 	gcc -o unittest04 -g unittest04.c dominion.o rngs.o $(CFLAGS)
@@ -55,6 +57,15 @@ unittest05: unittest05.c dominion.o rngs.o
 
 unittest06: unittest06.c dominion.o rngs.o
 	gcc -o unittest06 -g unittest06.c dominion.o rngs.o $(CFLAGS)
+
+unittest07: unittest07.c dominion.o rngs.o
+	gcc -o unittest07 -g unittest07.c dominion.o rngs.o $(CFLAGS)
+
+unittest08: unittest08.c dominion.o rngs.o
+	gcc -o unittest08 -g unittest08.c dominion.o rngs.o $(CFLAGS)
+
+unittest10: unittest10.c dominion.o rngs.o
+	gcc -o unittest10 -g unittest10.c dominion.o rngs.o $(CFLAGS)
 
 unittest12: unittest12.c dominion.o rngs.o
 	gcc -o unittest12 -g unittest12.c dominion.o rngs.o $(CFLAGS)
