@@ -28,24 +28,38 @@ runtests: testDrawCard
 
 
 # Final Project
-unittestresults: unittest04.c unittest05.c unittest06.c unittest12.c dominion.o rngs.o
+unittestresults: unittest02.c unittest04.c unittest05.c unittest06.c unittest07.c unittest08.c unittest10.c unittest12.c dominion.o rngs.o
+	echo "unittest02.c:" >> unittestresults.out
+	gcc -o unittest02 -g unittest02.c dominion.o rngs.o $(CFLAGS)
 	echo "unittest04.c:" >> unittestresults.out
 	gcc -o unittest04 -g unittest04.c dominion.o rngs.o $(CFLAGS)
 	echo "unittest05.c:" >> unittestresults.out
 	gcc -o unittest05 -g unittest05.c dominion.o rngs.o $(CFLAGS)
 	echo "unittest06.c:" >> unittestresults.out
 	gcc -o unittest06 -g unittest06.c dominion.o rngs.o $(CFLAGS)
+	echo "unittest07.c:" >> unittestresults.out
+	gcc -o unittest07 -g unittest07.c dominion.o rngs.o $(CFLAGS)
+	echo "unittest08.c:" >> unittestresults.out
+	gcc -o unittest08 -g unittest08.c dominion.o rngs.o $(CFLAGS)
+	echo "unittest10.c:" >> unittestresults.out
+	gcc -o unittest10 -g unittest10.c dominion.o rngs.o $(CFLAGS)
 	echo "unittest12.c:" >> unittestresults.out
 	gcc -o unittest12 -g unittest12.c dominion.o rngs.o $(CFLAGS)
 
+	./unittest02 >> unittestresults.out
 	./unittest04 >> unittestresults.out
 	./unittest05 >> unittestresults.out
 	./unittest06 >> unittestresults.out
+	./unittest07 >> unittestresults.out
+	./unittest08 >> unittestresults.out
+	./unittest10 >> unittestresults.out
 	./unittest12 >> unittestresults.out
 
 	gcov -c -b -f dominion.c >> unittestresults.out
 	cat dominion.c.gcov >> unittestresults.out
 
+unittest02: unittest02.c dominion.o rngs.o
+	gcc -o unittest02 -g unittest02.c dominion.o rngs.o $(CFLAGS)
 
 unittest04: unittest04.c dominion.o rngs.o
 	gcc -o unittest04 -g unittest04.c dominion.o rngs.o $(CFLAGS)
@@ -55,6 +69,15 @@ unittest05: unittest05.c dominion.o rngs.o
 
 unittest06: unittest06.c dominion.o rngs.o
 	gcc -o unittest06 -g unittest06.c dominion.o rngs.o $(CFLAGS)
+
+unittest07: unittest07.c dominion.o rngs.o
+	gcc -o unittest07 -g unittest07.c dominion.o rngs.o $(CFLAGS)
+
+unittest08: unittest08.c dominion.o rngs.o
+	gcc -o unittest08 -g unittest08.c dominion.o rngs.o $(CFLAGS)
+
+unittest10: unittest10.c dominion.o rngs.o
+	gcc -o unittest10 -g unittest10.c dominion.c rngs.c $(CFLAGS)
 
 unittest12: unittest12.c dominion.o rngs.o
 	gcc -o unittest12 -g unittest12.c dominion.o rngs.o $(CFLAGS)
