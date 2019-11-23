@@ -752,15 +752,6 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
     case feast:
         //gain card with cost up to 5
-        //Backup hand
-        for (i = 0; i <= state->handCount[currentPlayer]; i++) {
-            temphand[i] = state->hand[currentPlayer][i];//Backup card
-            state->hand[currentPlayer][i] = -1;//Set to nothing
-        }
-        //Backup hand
-
-        //Update Coins for Buy
-        updateCoins(currentPlayer, state, 5);
         x = 1;//Condition to loop on
         while( x == 1) {//Buy one card
             if (supplyCount(choice1, state) <= 0) {
@@ -771,7 +762,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
                     printf("Cards Left: %d\n", supplyCount(choice1, state));
                 }
             }
-            else if (state->coins < getCost(choice1)) {
+            else if (getCost(choice1) < 5) {  // Bug07 Fix - compare cost to hard coded 5
                 printf("That card is too expensive!\n");
 
                 if (DEBUG) {
@@ -793,13 +784,6 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
             }
         }
-
-        //Reset Hand
-        for (i = 0; i <= state->handCount[currentPlayer]; i++) {
-            state->hand[currentPlayer][i] = temphand[i];
-            temphand[i] = -1;
-        }
-        //Reset Hand
 
         return 0;
 
@@ -1063,19 +1047,20 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
             }
             tributeRevealedCards[0] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
             state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
-            state->deckCount[nextPlayer]--;
+            //state->deckCount[nextPlayer]--;  //Removed for Bug02 fix testing
             tributeRevealedCards[1] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
             state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
-            state->deckCount[nextPlayer]--;
+            //state->deckCount[nextPlayer]--;  //Removed for Bug02 fix testing
         }
 
         if (tributeRevealedCards[0] == tributeRevealedCards[1]) { //If we have a duplicate card, just drop one
-            state->playedCards[state->playedCardCount] = tributeRevealedCards[1];
-            state->playedCardCount++;
-            tributeRevealedCards[1] = -1;
+			// Bug02 Fix - return revealed cards to next player's discard
+			state->discard[nextPlayer][state->discardCount[nextPlayer]] = tributeRevealedCards[1];
+			state->discardCount[nextPlayer]++;
+			tributeRevealedCards[1] = -1;
         }
 
-        for (i = 0; i <= 2; i ++) {
+        for (i = 0; i < 2; i ++) {  // Bug08 fix - make loop run twice
             if (tributeRevealedCards[i] == copper || tributeRevealedCards[i] == silver || tributeRevealedCards[i] == gold) { //Treasure cards
                 state->coins += 2;
             }
@@ -1084,9 +1069,15 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
                 drawCard(currentPlayer, state);
                 drawCard(currentPlayer, state);
             }
-            else { //Action Card
+			else if (tributeRevealedCards[i] > 1 && tributeRevealedCards[i] <= 26) { //Action Card
                 state->numActions = state->numActions + 2;
             }
+
+			// Bug02 Fix - Return revealed cards to next player's discard
+			if (tributeRevealedCards[i] >= 0 && tributeRevealedCards[i] <= 26) { //Valid cards
+				state->discard[nextPlayer][state->discardCount[nextPlayer]] = tributeRevealedCards[i];
+				state->discardCount[nextPlayer]++;
+			}
         }
 
         return 0;
