@@ -772,7 +772,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
             }
             else if (state->coins < getCost(choice1)) {
                 printf("That card is too expensive!\n");
-
+				return -1; //***had to add this in order to execute bug07 test suite
                 if (DEBUG) {
                     printf("Coins: %d < %d\n", state->coins, getCost(choice1));
                 }

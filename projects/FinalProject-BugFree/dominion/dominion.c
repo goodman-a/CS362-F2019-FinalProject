@@ -764,7 +764,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
             }
             else if (getCost(choice1) > 5) {  // Bug07 Fix - compare cost to hard coded 5
                 printf("That card is too expensive!\n");
-				return -1;
+				return -1; //***had to add this in order to execute bug07 test suite
                 if (DEBUG) {
                     printf("Coins: %d < %d\n", state->coins, getCost(choice1));
                 }
