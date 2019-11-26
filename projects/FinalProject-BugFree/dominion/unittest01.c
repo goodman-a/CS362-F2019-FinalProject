@@ -66,6 +66,7 @@ int main()
 	gainCard(copper, &G4, 2, player1);
 
 	G4.supplyCount[silver] = 0;
+	G3.supplyCount[copper] = 45;
 
 	printf("\n***************************UNIT TEST FOR BUG 01******************************\n");
 
@@ -91,10 +92,10 @@ int main()
 	assertInt(p1DiscardCount, 1);
 	printf("\n");
 
-	printf("\nExpected Played Card Count: 1\n");
+	printf("\nExpected Played Card Count: 0\n");
 	printf("Actual Played Card Count: %d\n", pCardCount);
 	printf("Played Card Count Test: ");
-	assertInt(pCardCount, 1);
+	assertInt(pCardCount, 0);
 	printf("\n");	
 
 	printf("\nExpected choice2 Supply Count: 39\n");
@@ -159,10 +160,10 @@ int main()
 	assertInt(p1DiscardCount, 1);
 	printf("\n");
 
-	printf("\nExpected Played Card Count: 1\n");
+	printf("\nExpected Played Card Count: 0\n");
 	printf("Actual Played Card Count: %d\n", pCardCount);
 	printf("Played Card Count Test: ");
-	assertInt(pCardCount, 1);
+	assertInt(pCardCount, 0);
 	printf("\n");	
 
 	printf("\nExpected choice2 Supply Count: 44\n");
