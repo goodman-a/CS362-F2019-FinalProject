@@ -174,10 +174,10 @@ int main()
 	printf("Hand Count Test: ");
 	assertInt(p1HandCount, 6);
 
-	printf("\nExpected Discard Count: 1\n");
+	printf("\nExpected Discard Count: 0\n");
 	printf("Actual Discard Count: %d\n", p1DiscardCount);
 	printf("Discard Count Test: ");
-	assertInt(p1DiscardCount, 1);
+	assertInt(p1DiscardCount, 0);
 
 	printf("\nExpected Played Card Count: 0\n");
 	printf("Actual Played Card Count: %d\n", pCardCount);
