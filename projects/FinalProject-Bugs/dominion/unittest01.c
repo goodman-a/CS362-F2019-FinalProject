@@ -20,9 +20,9 @@
 void assertInt(int a, int b)
 {
 	if (a == b)
-		printf("PASSED\n");
+		printf("PASSED");
 	else
-		printf("FAILED\n");
+		printf("FAILED");
 }
 
 int main()
@@ -67,11 +67,11 @@ int main()
 	G4.supplyCount[silver] = 0;
 	G3.supplyCount[copper] = 45;
 
-	printf("\n***************************UNIT TEST FOR BUG 01******************************\n");
+	printf("***************************UNIT TEST FOR BUG 01******************************\n");
 
-	printf("\n              Begin Testing mineCardEffect() on G1 (choices: copper, silver):\n");
+	printf("              Begin Testing mineCardEffect() on G1 (choices: copper, silver):\n");
 
-	printf("\nReturn Success (0) Test: ");
+	printf("Return Success (0) Test: ");
 	assertInt(0, cardEffect(card, copper, silver, -1, &G1, 0, bonus));
 
 	p1HandCount = G1.handCount[player1];
@@ -83,29 +83,25 @@ int main()
 	printf("Actual Hand Count: %d\n", p1HandCount);
 	printf("Hand Count Test: ");
 	assertInt(p1HandCount, 6);
-	printf("\n");
 
 	printf("\nExpected Discard Count: 1\n");
 	printf("Actual Discard Count: %d\n", p1DiscardCount);
 	printf("Discard Count Test: ");
 	assertInt(p1DiscardCount, 1);
-	printf("\n");
 
 	printf("\nExpected Played Card Count: 0\n");
 	printf("Actual Played Card Count: %d\n", pCardCount);
 	printf("Played Card Count Test: ");
 	assertInt(pCardCount, 0);
-	printf("\n");	
 
 	printf("\nExpected choice2 Supply Count: 39\n");
 	printf("Actual choice2 Supply Count: %d\n", choice2SupplyCount);
 	printf("choice2 Supply Count Test: ");
 	assertInt(choice2SupplyCount, 39);
-	printf("\n");	
 
-	printf("\n\n             Begin Testing baronCardEffect() on G2 (choices: copper, gold):\n");
+	printf("\n             Begin Testing baronCardEffect() on G2 (choices: copper, gold):\n");
 
-	printf("\nReturn Error (-1) Test: ");
+	printf("Return Error (-1) Test: ");
 	assertInt(-1, cardEffect(card, copper, gold, -1, &G2, 0, bonus));
 
 	p1HandCount = G2.handCount[player1];
@@ -117,29 +113,25 @@ int main()
 	printf("Actual Hand Count: %d\n", p1HandCount);
 	printf("Hand Count Test: ");
 	assertInt(p1HandCount, 6);
-	printf("\n");
 
 	printf("\nExpected Discard Count: 0\n");
 	printf("Actual Discard Count: %d\n", p1DiscardCount);
 	printf("Discard Count Test: ");
 	assertInt(p1DiscardCount, 0);
-	printf("\n");
 
 	printf("\nExpected Played Card Count: 0\n");
 	printf("Actual Played Card Count: %d\n", pCardCount);
 	printf("Played Card Count Test: ");
 	assertInt(pCardCount, 0);
-	printf("\n");	
 
 	printf("\nExpected choice2 Supply Count: 30\n");
 	printf("Actual choice2 Supply Count: %d\n", choice2SupplyCount);
 	printf("choice2 Supply Count Test: ");
 	assertInt(choice2SupplyCount, 30);
-	printf("\n");	
 
-	printf("\n\n             Begin Testing baronCardEffect() on G3 (choices: silver, copper):\n");
+	printf("\n             Begin Testing baronCardEffect() on G3 (choices: silver, copper):\n");
 
-	printf("\nReturn Success (0) Test: ");
+	printf("Return Success (0) Test: ");
 	assertInt(0, cardEffect(card, silver, copper, -1, &G3, 0, bonus));
 
 	p1HandCount = G3.handCount[player1];
@@ -151,29 +143,25 @@ int main()
 	printf("Actual Hand Count: %d\n", p1HandCount);
 	printf("Hand Count Test: ");
 	assertInt(p1HandCount, 6);
-	printf("\n");
 
 	printf("\nExpected Discard Count: 1\n");
 	printf("Actual Discard Count: %d\n", p1DiscardCount);
 	printf("Discard Count Test: ");
 	assertInt(p1DiscardCount, 1);
-	printf("\n");
 
 	printf("\nExpected Played Card Count: 0\n");
 	printf("Actual Played Card Count: %d\n", pCardCount);
 	printf("Played Card Count Test: ");
 	assertInt(pCardCount, 0);
-	printf("\n");	
 
 	printf("\nExpected choice2 Supply Count: 44\n");
 	printf("Actual choice2 Supply Count: %d\n", choice2SupplyCount);
 	printf("choice2 Supply Count Test: ");
 	assertInt(choice2SupplyCount, 44);
-	printf("\n");	
 
-	printf("\n\n             Begin Testing baronCardEffect() on G4 (choices: copper, silver (none in supply)):\n");
+	printf("\n             Begin Testing baronCardEffect() on G4 (choices: copper, silver (none in supply)):\n");
 
-	printf("\nReturn Error (-1) Test: ");
+	printf("Return Error (-1) Test: ");
 	assertInt(-1, cardEffect(card, copper, silver, -1, &G4, 0, bonus));
 
 	p1HandCount = G4.handCount[player1];
@@ -185,25 +173,21 @@ int main()
 	printf("Actual Hand Count: %d\n", p1HandCount);
 	printf("Hand Count Test: ");
 	assertInt(p1HandCount, 6);
-	printf("\n");
 
 	printf("\nExpected Discard Count: 1\n");
 	printf("Actual Discard Count: %d\n", p1DiscardCount);
 	printf("Discard Count Test: ");
 	assertInt(p1DiscardCount, 1);
-	printf("\n");
 
 	printf("\nExpected Played Card Count: 0\n");
 	printf("Actual Played Card Count: %d\n", pCardCount);
 	printf("Played Card Count Test: ");
 	assertInt(pCardCount, 0);
-	printf("\n");	
 
 	printf("\nExpected choice2 Supply Count: 0\n");
 	printf("Actual choice2 Supply Count: %d\n", choice2SupplyCount);
 	printf("choice2 Supply Count Test: ");
 	assertInt(choice2SupplyCount, 0);
-	printf("\n");	
 
 	printf("\nTest completed!\n");
 
