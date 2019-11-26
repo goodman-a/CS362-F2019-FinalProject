@@ -1,10 +1,9 @@
 /************************************************************************************
 ** Author:	Cris Shumack
-** Date:	11/09/2019
-** Assignment:  Assignment 3 - Unit Tests
-** Description: Unit tests for the Mine card function that was refactored in
-**		assignment 2. Tests Mine card's main functions, as well as finds
-**		bugs that were introduced in assignment2.
+** Date:	12/03/2019
+** Assignment:  CS 362 Final Project
+** Description: Unit tests for the Mine card function. Tests Mine card's main
+**		functions, as well as finds bugs.
 ************************************************************************************/
 
 #include <stdlib.h>
