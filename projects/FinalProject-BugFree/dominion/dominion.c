@@ -1126,9 +1126,6 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
             }
         }
 
-        //discard played card from hand
-        discardCard(handPos, currentPlayer, state, 0);
-
         //trash copies of cards returned to supply
         for (j = 0; j < choice2; j++)
         {
@@ -1141,6 +1138,19 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
                 }
             }
         }
+
+        // Relocate the hand position of the played amabassador card
+        for (i=0; i< state->handCount[currentPlayer]; i++)
+        {
+            if(state->hand[currentPlayer][i] == ambassador)
+            {
+                handPos = i;
+                break;
+            }
+        }
+
+        //discard played card from hand
+        discardCard(handPos, currentPlayer, state, 0);
 
         return 0;
 
