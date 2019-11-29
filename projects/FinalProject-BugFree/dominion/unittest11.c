@@ -113,8 +113,8 @@ int main()
 	assertInt(G1.discardCount[player2], 1);
 	printf("\n");
 
-	printf("choice1 Supply Count: 11\n");
-	printf("choice1 Supply Count: %d\n", G1.supplyCount[village]);
+	printf("choice1 Expected Supply Count: 10\n");
+	printf("choice1 Actual Supply Count: %d\n", G1.supplyCount[village]);
 	printf("Supply Count Test: ");
 	assertInt(G1.supplyCount[village], 10);
 	printf("\n");
@@ -130,14 +130,14 @@ int main()
 	assertInt(G2.handCount[player1], 4);
 	printf("\n");
 
-	printf("Player2 Expected Discard Count: 2\n");
+	printf("Player2 Expected Discard Count: 1\n");
 	printf("Player2 Actual Discard Count: %d\n", G2.discardCount[player2]);
 	printf("Discard Count Test: ");
 	assertInt(G2.discardCount[player2], 1);
 	printf("\n");
 
-	printf("choice1 Supply Count: 12\n");
-	printf("choice1 Supply Count: %d\n", G2.supplyCount[village]);
+	printf("choice1 Expected Supply Count: 11\n");
+	printf("choice1 Actual Supply Count: %d\n", G2.supplyCount[village]);
 	printf("Supply Count Test: ");
 	assertInt(G2.supplyCount[village], 11);
 	printf("\n");
