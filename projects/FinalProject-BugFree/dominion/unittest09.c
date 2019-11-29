@@ -90,7 +90,7 @@ int main()
 
 	printf("%d\n", handCard(G1.handCount[player1] - 1, &G1));
 
-	printf("***************************UNIT TEST FOR BUG 01******************************\n");
+	printf("***************************UNIT TEST FOR BUG 09******************************\n");
 
 	printf("              Begin Testing Baron case on G1:\n");
 
