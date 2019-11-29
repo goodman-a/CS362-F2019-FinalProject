@@ -29,7 +29,7 @@ int main()
 	// init test variables
 	int card = tribute;
 	struct gameState G;
-	int *bonus = 0;
+	int bonus = 0;
 	int currentPlayer = 0;
 	int nextPlayer = 1;
 
@@ -70,7 +70,7 @@ int main()
 
 
 	// call function
-	returnValue = cardEffect(card, -1, -1, -1, &G, -1, bonus);
+	returnValue = cardEffect(card, -1, -1, -1, &G, -1, &bonus);
 
 	// return value is valid
 	MY_ASSERT(returnValue == 0, "return value is valid");
@@ -81,8 +81,8 @@ int main()
 	printf("  next player's deck count: %d, expected: %d\n", G.deckCount[nextPlayer], nextDeckCountBefore);
 
 	// no rewards gained
-	MY_ASSERT(G.coins == coinsBefore, "no coins gained");
-	printf("  coins: %d, expected: %d\n", G.coins, coinsBefore);
+	MY_ASSERT(G.coins + bonus == coinsBefore, "no coins gained");
+	printf("  coins: %d, expected: %d\n", G.coins + bonus, coinsBefore);
 	MY_ASSERT(G.handCount[currentPlayer] == handCountBefore, "no cards gained");
 	printf("  hand count: %d, expected: %d\n", G.handCount[currentPlayer], handCountBefore);
 	MY_ASSERT(G.numActions == actionsBefore, "no actions gained");
@@ -97,6 +97,7 @@ int main()
 	initializeGame(numPlayer, k, seed, &G);  // init new game
 
 	// set variables for this test
+	bonus = 0;  // reset bonus
 	G.whoseTurn = currentPlayer;  // set current player to be 0
 	nextDeckCountBefore = 1;  // make sure 1 card is revealed
 	G.deckCount[nextPlayer] = nextDeckCountBefore;  // set deck count to 1
@@ -110,7 +111,7 @@ int main()
 
 
 	// call function
-	returnValue = cardEffect(card, -1, -1, -1, &G, -1, bonus);
+	returnValue = cardEffect(card, -1, -1, -1, &G, -1, &bonus);
 
 	// return value is valid
 	MY_ASSERT(returnValue == 0, "return value is valid");
@@ -125,8 +126,8 @@ int main()
 	printf("  revealed card value: %d, expected: %d\n", G.discard[nextPlayer][0], revealedCards[0]);
 
 	// exactly 2 coins are gained
-	MY_ASSERT(G.coins == coinsBefore + 2, "two coins gained");
-	printf("  coins: %d, expected: %d\n", G.coins, coinsBefore + 2);
+	MY_ASSERT(G.coins + bonus == coinsBefore + 2, "two coins gained");
+	printf("  coins: %d, expected: %d\n", G.coins + bonus, coinsBefore + 2);
 
 	// no other rewards are gained
 	MY_ASSERT(G.handCount[currentPlayer] == handCountBefore, "no cards gained");
@@ -143,6 +144,7 @@ int main()
 	initializeGame(numPlayer, k, seed, &G);  // init new game
 
 	//// set variables for this test
+	bonus = 0;  // reset bonus
 	G.whoseTurn = currentPlayer;  // set current player to be 0
 	nextDeckCountBefore = 2;  // make sure 2 cards are revealed
 	G.deckCount[nextPlayer] = nextDeckCountBefore;  // set deck count to 2
@@ -156,7 +158,7 @@ int main()
 	actionsBefore = G.numActions;  // track actions
 
 	// call function
-	returnValue = cardEffect(card, -1, -1, -1, &G, -1, bonus);
+	returnValue = cardEffect(card, -1, -1, -1, &G, -1, &bonus);
 
 	// return value is valid
 	MY_ASSERT(returnValue == 0, "return value is valid");
@@ -175,8 +177,8 @@ int main()
 	printf("  second revealed card value: %d, expected: %d\n", G.discard[nextPlayer][1], revealedCards[1]);
 
 	// no coins are gained
-	MY_ASSERT(G.coins == coinsBefore, "no coins gained");
-	printf("  coins: %d, expected: %d\n", G.coins, coinsBefore);
+	MY_ASSERT(G.coins + bonus == coinsBefore, "no coins gained");
+	printf("  coins: %d, expected: %d\n", G.coins + bonus, coinsBefore);
 
 	// two cards are gained
 	MY_ASSERT(G.handCount[currentPlayer] == handCountBefore + 2, "two cards gained");
@@ -194,6 +196,7 @@ int main()
 	initializeGame(numPlayer, k, seed, &G);  // init new game
 
 	//// set variables for this test
+	bonus = 0;  // reset bonus
 	G.whoseTurn = currentPlayer;  // set current player to be 0
 	nextDeckCountBefore = 2;  // make sure 2 cards are revealed
 	G.deckCount[nextPlayer] = nextDeckCountBefore;  // set deck count to 2
@@ -207,7 +210,7 @@ int main()
 	actionsBefore = G.numActions;  // track actions
 
 	// call function
-	returnValue = cardEffect(card, -1, -1, -1, &G, -1, bonus);
+	returnValue = cardEffect(card, -1, -1, -1, &G, -1, &bonus);
 
 	// return value is valid
 	MY_ASSERT(returnValue == 0, "return value is valid");
@@ -226,8 +229,8 @@ int main()
 	printf("  second revealed card value: %d, expected: %d\n", G.discard[nextPlayer][1], revealedCards[1]);
 
 	// only two coins are gained
-	MY_ASSERT(G.coins == coinsBefore + 2, "only 2 coins gained");
-	printf("  coins: %d, expected: %d\n", G.coins, coinsBefore + 2);
+	MY_ASSERT(G.coins + bonus == coinsBefore + 2, "only 2 coins gained");
+	printf("  coins: %d, expected: %d\n", G.coins + bonus, coinsBefore + 2);
 
 	// no other rewards gained
 	MY_ASSERT(G.handCount[currentPlayer] == handCountBefore, "no cards gained");

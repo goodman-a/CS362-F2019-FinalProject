@@ -28,7 +28,7 @@ int main()
 	// init test variables
 	int card = tribute;
 	struct gameState G;
-	int *bonus = 0;
+	int bonus = 0;
 	int currentPlayer = 0;
 	int nextPlayer = 1;
 
@@ -65,7 +65,7 @@ int main()
 	revealedCards[1] = -1;
 
 	// call function
-	returnValue = cardEffect(card, -1, -1, -1, &G, -1, bonus);
+	returnValue = cardEffect(card, -1, -1, -1, &G, -1, &bonus);
 
 	// return value is valid
 	MY_ASSERT(returnValue == 0, "return value is valid");
@@ -103,8 +103,8 @@ int main()
 	revealedCards[1] = G.deck[nextPlayer][0];  // track second revealed card
 
 	// call function
-	returnValue = cardEffect(card, -1, -1, -1, &G, -1, bonus);
-
+	returnValue = cardEffect(card, -1, -1, -1, &G, -1, &bonus);
+	
 	// return value is valid
 	MY_ASSERT(returnValue == 0, "return value is valid");
 	printf("  return value: %d, expected: 0\n", returnValue);
@@ -144,7 +144,7 @@ int main()
 	revealedCards[1] = G.deck[nextPlayer][0];  // track second revealed card
 
 	// call function
-	returnValue = cardEffect(card, -1, -1, -1, &G, -1, bonus);
+	returnValue = cardEffect(card, -1, -1, -1, &G, -1, &bonus);
 
 	// return value is valid
 	MY_ASSERT(returnValue == 0, "return value is valid");
