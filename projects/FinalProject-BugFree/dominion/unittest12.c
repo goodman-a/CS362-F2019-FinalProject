@@ -275,7 +275,7 @@ int MinionTest(int card, int choice1, int choice2, int choice3, struct gameState
   int flagFail = 0;
   int assertReturn;
   int player1 = 0;
-  int bonus_start = state->coins;
+  int bonus_start = 0;
 
   // Set-up Test Game State
   struct gameState testState;
@@ -294,7 +294,7 @@ int MinionTest(int card, int choice1, int choice2, int choice3, struct gameState
     if(assertReturn){flagFail=1;printf("\tNumber of Actions: Current = %d vs. Expected = %d\n", testState.numActions, state->numActions +1);}
 
     // +2 Bonus
-    assertReturn = AssertTest((testState.coins == bonus_start+2), "Player1: +2 Bonus");
+    assertReturn = AssertTest((*bonus == bonus_start+2), "Player1: +2 Bonus");
     if(assertReturn) {flagFail = 1; printf("\tBonus Count: Current = %d vs. Exepected = %d\n", testState.coins, bonus_start+2);}
 
 
@@ -314,7 +314,7 @@ int MinionTest(int card, int choice1, int choice2, int choice3, struct gameState
 
     /* -- Player -- */
     // +0 Bonus
-    assertReturn = AssertTest((testState.coins == bonus_start), "Player1: +0 Bonus");
+    assertReturn = AssertTest((*bonus == bonus_start), "Player1: +0 Bonus");
     if(assertReturn) {flagFail = 1; printf("\tBonus Count: Current = %d vs. Exepected = %d\n", testState.coins, bonus_start);}
 
     // Player 1: Test Hand Count <= 4
